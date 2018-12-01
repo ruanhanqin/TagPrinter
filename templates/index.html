@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>标签打印服务</title>
+    <meta name="description" content="jQuery.print is a plugin for printing specific parts of a page">
+    <meta name="viewport" content="width=device-width">
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/jQuery.print.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
+    <style type='text/css'>
+        .a {
+            background: black;
+            color: white;
+        }
+
+        .b {
+            color: #aaa;
+        }
+
+        input {
+
+            border: none;
+            display: inline;
+            font-size: 10px;
+        }
+
+        textarea {
+
+            border: none;
+            display: inline;
+            font-size: 10px;
+        }
+
+        label {
+            display: inline;
+        }
+
+        td {
+
+            height: 17px;
+            font-size: 10px;
+            color: black;
+        }
+
+        table {
+            border: 0px solid #F00;
+        }
+
+        table td {
+            border: 0px solid #00F;
+        }
+    </style>
+
+    <style type="text/css">
+        #logo {
+            width: 200px;
+            height: 112px;
+        }
+
+        #logo img {
+            width: 200px;
+        }
+
+        #pic {
+            width: 100px;
+            bottom: 0px;
+            height: 25px;
+        }
+
+        span {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="no-print avoid-this" style="float:right;height: 15mm;">
+    <div class="navbar-header" style="float:right">
+        <h5 style="display: inline">欢迎回来！ {{ request.user }}</h5>
+        <h5 style="display: inline;"><a class="navbar-brand" href="{% url "logout" %}">退出</a></h5>
+        <p>{{ request.session.manufacturer }}</p>
+    </div>
+</div>
+<div id="content_holder">
+    <div id="ele4" class="b" style="width:490px;margin:  auto; padding: 0px">
+        <table width="490px" class="table" style="margin:0 auto; word-wrap:break-word; word-break:break-all;">
+            <tbody>
+            <tr>
+                <td>
+                    <div style="height: 40px;border: 0px" id="logo"></div>
+                </td>
+                <td><label><h2 style="display:inline;text-align: left;">净含量：</h2></label><input style="font-size: 12px" id="weight" value="10kg"></td>
+            </tr>
+            <tr>
+                <td style="width:50%"><label><h2 style="display:inline;text-align: left;">品名：</h2></label><input style="font-size: 12px" id="name" autocomplete="off" size="20" value="恒阳"></td>
+                <td><label>产品执行标准：</label><input id="executive_standard" size="30" autocomplete="off" value="产品执行标准">
+                </td>
+            </tr>
+            <tr>
+                <td><label>配料：</label><input id="mixture" size="40" autocomplete="off" value="配料"></td>
+                <td><label>生产日期：</label><input id="production_date" size="30" autocomplete="off" value="生产日期"></td>
+            </tr>
+            <tr>
+                <td><label>原料产地：</label><input id="mixture_origin" size="35" autocomplete="off" value="原料产地"></td>
+                <td><label>保质期：</label><input id="expiration_date" size="35" autocomplete="off" value="保质期"></td>
+            </tr>
+            <tr>
+                <td><label>原产国(地区)(原料)：</label><input id="mixture_country" size="28" autocomplete="off" value="原产国(地区)(原料)"></td>
+                <td><label>贮藏条件</label><input id="storage_conditions" size="35" autocomplete="off" value="贮藏条件"></td>
+            </tr>
+            <tr>
+                <td><label>生产企业名称(原料)：</label><input id="mixture_company" size="28" autocomplete="off" value="生产企业名称(原料)"></td>
+                <td><label>授权委托商：</label><input id="authorized_agent" size="30" autocomplete="off" value="授权委托商"></td>
+            </tr>
+            <tr>
+                <td><label>生产企业地址(原料)：</label><textarea id="mixture_company_address" autocomplete="off" style="height:25px;width:90%" value="生产企业地址(原料)"></textarea></td>
+                <td><label>地址：</label><textarea id="authorized_agent_address" autocomplete="off" style="height:25px;width:86%" value="地址"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td><label>生产企业注册号(原料)：</label><input id="mixture_company_registration" size="24" autocomplete="off" value="生产企业注册号(原料)">
+                </td>
+                <td><label>生产商：</label><input id="manufacturer" size="35" autocomplete="off" value="{{ request.session.manufacturer }}"></td>
+            </tr>
+            <tr>
+                <td><label>生产批号(原料)：</label><input id="mixture_batch_number" size="30" autocomplete="off" value="生产批号(原料)"></td>
+                <td><label>地址：</label><input id="address" size="38" autocomplete="off" value="{{ request.session.address }}"></td>
+            </tr>
+            <tr>
+                <td><label>生产日期(原料)：</label><input id="mixture_production_date" size="30" autocomplete="off" value="生产日期(原料)"></td>
+                <td><label>产地：</label><input id="production_origin" size="40" autocomplete="off" value="{{ request.session.production_origin }}"></td>
+            </tr>
+            <tr>
+                <td><label>保质期(原料)：</label><input id="mixture_expiration_date" size="30" autocomplete="off" value="保质期(原料)"></td>
+                <td><label>电话：</label><input id="phone" size="40" autocomplete="off" value="{{ request.session.phone }}"></td>
+            </tr>
+            <tr>
+                <td><label>贮藏条件(原料)：</label><input id="mixture_storage_conditions" size="32" autocomplete="off" value="贮藏条件(原料)"></td>
+                <td><label>目的地(原料)：</label><input id="mixture_destination" size="32" autocomplete="off" value="目的地(原料)">
+                </td>
+            </tr>
+            <tr>
+                <td><label>规格(原料)：</label><input id="mixture_format" size="35" autocomplete="off" value="规格(原料)"></td>
+                <td><label>产品编码：</label><input id="product_code" size="35" autocomplete="off" value="产品编码"></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="print-link avoid-this" style="float: right; bottom:0px">打印</button>
+    </div>
+</div>
+<div style="text-align:right;height: 35px;overflow: hidden;" class="print-link avoid-this">
+        <span><select id="select" style="height: 25px;display: inline" onchange="gradeChange()">
+                <option selected value="-1">请选择</option>
+            </select></span>
+
+    <span><button id="submit" style="height: 25px;display: inline;" onclick="searchitem()">查询</button></span>
+    <span><input id="search" style="height:20px;border: 1px solid blue;display: inline;top: 0;" placeholder="关键词" autocomplete="off"></span>
+    <span><input id="pic" style="height: 20px;display: inline" type="file" name='pic' accept="image/*" onchange="selectFile()"/></span>
+</div>
+
+<script>
+    window.jQuery || document.write('<script src="../bower_components/jquery/dist/jquery.min.js"><\/script>')
+</script>
+
+<script type="text/javascript">
+    // 页面上传显示图片
+    var form = new FormData();//通过HTML表单创建FormData对象
+    var url = '127.0.0.1:8080/';
+
+    function selectFile() {
+        var files = document.getElementById('pic').files;
+        console.log(files[0]);
+        if (files.length == 0) {
+            return;
+        }
+        var file = files[0];
+        //把上传的图片显示出来
+        var reader = new FileReader();
+        // 将文件以Data URL形式进行读入页面
+        console.log(reader);
+        reader.readAsBinaryString(file);
+        reader.onload = function (f) {
+            var result = document.getElementById("logo");
+            var src = "data:" + file.type + ";base64," + window.btoa(this.result);
+            result.innerHTML = '<img style="border: 0;max-width:80%;" src ="' + src + '"/>';
+        };
+
+        form.append('file', file);
+    }
+
+    // 打印功能
+    jQuery(function ($) {
+        'use strict';
+        $("#ele4").find('button').on('click', function () {
+            //Print ele4 with custom options
+            $("#ele4").print({
+                //Use Global styles
+                globalStyles: true,
+                //Add link with attrbute media=print
+                mediaPrint: false,
+                //Custom stylesheet
+                stylesheet: "{% static "css/print.css" %}",
+                //Print in a hidden iframe
+                iframe: false,
+                //Don't print this
+                noPrintSelector: ".avoid-this",
+                //Add this at top
+                prepend: null,
+                //Add this on bottom
+                append: null,
+                title: null,
+                //Log to console when printing is done via a deffered callback
+                deferred: $.Deferred().done(function () {
+                    console.log('Printing done', arguments);
+                })
+            });
+        });
+        // Fork https://github.com/sathvikp/jQuery.print for the full list of options
+    });
+    //]]>
+</script>
+<script>
+    // 获取select值并向服务器发送查询
+    function gradeChange() {
+        var objS = document.getElementById("select");
+        var grade = objS.options[objS.selectedIndex].value;
+        console.log(grade);
+        $.getJSON({
+            url: 'http://127.0.0.1:8000/getinfo?name=' + grade,
+            success: function (data) {
+                update(data)
+            }
+        })
+    }
+
+    // 查询产品
+    function searchitem() {
+        var objS = document.getElementById("search");
+        var grade = objS.value;
+        $.getJSON({
+            url: 'http://127.0.0.1:8000/search?name=' + grade,
+            success: function (data) {
+                jstr = eval("(" + data + ")");
+                console.log(jstr)
+                var selid = document.getElementById("select");
+                $("#select").empty();
+                $("#select").append("<option>" + "请选择" + "</option>");
+                for (var i in jstr) {
+                    value = jstr[i];
+                    $("#select").append("<option>" + value + "</option>");
+                }
+            }
+        })
+    }
+
+    // 填充显示字段
+    sn = '';
+
+    function update(data) {
+        jstr = eval("(" + data + ")");
+        $("#name").attr("value", jstr[0]['fields']['name']);
+        <!-- 品名 -->
+        $("#executive_standard").attr("value", jstr[0]['fields']['executive_standard']);
+        <!--执行标准-->
+        $("#mixture").attr("value", jstr[0]['fields']['mixture']);
+        <!--配料-->
+        $("#production_date").attr("value", jstr[0]['fields']['production_date']);
+        <!--生产日期-->
+        $("#mixture_origin").attr("value", jstr[0]['fields']['mixture_origin']);
+        <!--原料产地-->
+        $("#expiration_date").attr("value", jstr[0]['fields']['expiration_date']);
+        <!--保质期-->
+        $("#mixture_country").attr("value", jstr[0]['fields']['mixture_country']);
+        <!--原产国-->
+        $("#storage_conditions").attr("value", jstr[0]['fields']['storage_conditions']);
+        <!--贮藏条件-->
+        $("#mixture_company").attr("value", jstr[0]['fields']['mixture_company']);
+        <!--生产企业名称-->
+        $("#authorized_agent").attr("value", jstr[0]['fields']['authorized_agent']);
+        <!--授权委托商-->
+        $("#mixture_company_address").val(jstr[0]['fields']['mixture_company_address']);
+        <!--生产企业地址-->
+        $("#authorized_agent_address").val(jstr[0]['fields']['authorized_agent_address']);
+        <!--地址-->
+        $("#mixture_company_registration").attr("value", jstr[0]['fields']['mixture_company_registration']);
+        <!--生产企业注册号-->
+        $("#mixture_batch_number").attr("value", jstr[0]['fields']['mixture_batch_number']);
+        <!--生产批号-->
+        $("#mixture_production_date").attr("value", jstr[0]['fields']['mixture_production_date']);
+        <!--生产日期-->
+        $("#mixture_expiration_date").attr("value", jstr[0]['fields']['mixture_expiration_date']);
+        <!-- 保质期  -->
+        $("#mixture_storage_conditions").attr("value", jstr[0]['fields']['mixture_storage_conditions']);
+        <!-- 贮藏条件(原料)  -->
+        $("#mixture_destination").attr("value", jstr[0]['fields']['mixture_destination']);
+        <!-- 目的地(原料)  -->
+        $("#mixture_format").attr("value", jstr[0]['fields']['mixture_format']);
+        <!-- 规格(原料)  -->
+
+        sn = jstr[0]['fields']['sn'];
+        var result = document.getElementById("logo");
+        var src = jstr[0]['fields']['logo'];
+        result.innerHTML = '<img style="border: 0;max-width:80%;" src=http://127.0.0.1:8000/media/' + src + '/>';
+    }
+
+    // 自增SN
+    function setsn() {
+        var myDate = new Date();
+        year = myDate.getFullYear().toString();
+        month = (myDate.getMonth() + 1).toString();
+        day = myDate.getDate().toString();
+        hour = myDate.getHours().toString();
+        mins = myDate.getMinutes().toString();
+        second = myDate.getSeconds().toString();
+        console.log(sn);
+        snno = sn + year + month + day + hour + mins + second;
+        $("#product_code").attr("value", snno);
+        <!-- 产品编码  -->
+    }
+
+    ref = setInterval(function () {
+        setsn();
+    }, 1000);
+
+</script>
+</body>
+</html>
